@@ -22,6 +22,7 @@ export function Button({ children, onPress, disabled = false, iconName, iconSize
                 type === "primary" ?
                     styles.primaryContainer :
                     styles.secondaryContainer,
+                disabled && styles.disabledContainer,
                 style
             ]}
             onPress={onPress}
@@ -71,6 +72,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 10,
         borderWidth: 0.5
+    },
+
+    disabledContainer: {
+        opacity: 0.5
     },
 
     labelText: {

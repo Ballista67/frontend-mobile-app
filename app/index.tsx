@@ -1,20 +1,82 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import * as React from "react";
-import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
+import { Input } from "@/components/Input";
 import { Separator } from "@/components/Separator";
-import { Link } from "expo-router";
-import { useState } from "react";
-// import auth from '@react-native-firebase/auth';
+import { getApp } from "@react-native-firebase/app";
+import auth, { GoogleAuthProvider, signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { Link, useRouter } from "expo-router";
+import * as React from "react";
+import { useState, useEffect } from "react";
+import { Alert, Image, StyleSheet, Text, View } from "react-native";
 
 export default function LogIn() {
+	
+	const router = useRouter();
+
+	const firebaseApp = getApp();
 
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
-	// const logIn = async () => {
-	// 	await auth().signInWithEmailAndPassword(email, password);
-	// };
+	const [logInLoading, setLogInLoading] = useState<boolean>(false);
+
+    useEffect(() => {
+		GoogleSignin.configure({
+			webClientId: "824192608993-vi9bicl7vu7flrpmgcp1q6r6m0pv366f.apps.googleusercontent.com"
+		});
+	}, []);
+
+	const logInWithGoogle = async () => {
+
+		try {
+			
+			await GoogleSignin.signIn();
+            const { idToken } = await GoogleSignin.getTokens();
+
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+            const userCredential = await auth().signInWithCredential(googleCredential);
+
+            if (userCredential.user) {
+                router.push("/Classes");
+            }
+
+            
+		} catch (err: any) {
+			Alert.alert("Error", 'Failed to log in with Google. Please try again.');
+		}
+
+	};
+
+	const logInWithEmailAndPassword = async () => {
+
+		setLogInLoading(true);
+
+		try {
+
+			await signInWithEmailAndPassword(auth(firebaseApp), email, password);
+			router.push("/Classes");
+
+		} catch (err: any) {
+
+			switch (err.code) {
+				case "auth/wrong-password":
+					Alert.alert("Error", "Incorrect password. Please try again.");
+					break;
+				case "auth/user-not-found":
+					Alert.alert("Error", "No account found with this email.");
+					break;
+				case "auth/invalid-email":
+					Alert.alert("Error", "Please enter a valid email address.");
+					break;
+				default:
+					Alert.alert("Error", "Failed to log in. Please try again.");
+			}
+
+		}
+
+		setLogInLoading(false);
+
+	};
 
 	return (
 
@@ -54,7 +116,11 @@ export default function LogIn() {
 				setValue={setPassword}
 			/>
 
-			<Button iconName="person-outline">
+			<Button 
+				iconName="person-outline" 
+				onPress={logInWithEmailAndPassword}
+				disabled={logInLoading || !email || !password}
+			>
 				Log In
 			</Button>
 
@@ -67,6 +133,7 @@ export default function LogIn() {
 					iconName="logo-google"
 					iconSize={20}
 					style={styles.externalLogInProviderButton}
+					onPress={logInWithGoogle}
 				/>
 
 				<Button
@@ -81,7 +148,6 @@ export default function LogIn() {
 					iconName="logo-microsoft"
 					iconSize={20}
 					style={styles.externalLogInProviderButton}
-					//onPress={logIn}
 				/>
 
 			</View>
@@ -91,7 +157,7 @@ export default function LogIn() {
 				By continuing, you agree to our{" "}
 
 				<Link
-					href={"/LogIn"}
+					href={"/"}
 					style={styles.link}
 				>
 					Terms of Service
@@ -100,7 +166,7 @@ export default function LogIn() {
 				{" "}and{" "}
 
 				<Link
-					href={"/LogIn"}
+					href={"/"}
 					style={styles.link}
 				>
 					Privacy Policy

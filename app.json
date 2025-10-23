@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "ballistafrontendmobileapp",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ballista.frontend-mobile-app",
@@ -23,7 +23,7 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.ballista.frontendmobileapp", 
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./googe-services.json"
     },
     "web": {
       "output": "static",
@@ -52,7 +52,8 @@
         }
       ],
       "@react-native-firebase/app",
-      "@react-native-firebase/auth"
+      "@react-native-firebase/auth", 
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true,
