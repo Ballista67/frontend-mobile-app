@@ -12,9 +12,10 @@ interface ButtonProps {
     iconSize?: number;
     type?: "primary" | "secondary";
     style?: object;
+    textStyle?: object;
 }
 
-export function Button({ children, onPress, disabled = false, iconName, iconSize, type = "primary", style }: ButtonProps) {
+export function Button({ children, onPress, disabled = false, iconName, iconSize, type = "primary", style, textStyle }: ButtonProps) {
 
     return (
         <TouchableOpacity
@@ -30,7 +31,7 @@ export function Button({ children, onPress, disabled = false, iconName, iconSize
         >
 
             {children && (
-                <Text style={styles.labelText}>
+                <Text style={[styles.text, textStyle]}>
                     {children}
                 </Text>
             )}
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
         opacity: 0.5
     },
 
-    labelText: {
+    text: {
         color: "#fff"
     },
 

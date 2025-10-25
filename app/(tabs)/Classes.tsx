@@ -1,4 +1,4 @@
-import AssessmentContainer from "@/components/classesScreen/ClassContainer";
+import AssessmentContainer from "@/components/classes-screen/ClassContainer";
 import { Input } from "@/components/Input";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { useUser } from "@/contexts/UserContext";
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        padding: 36,
+        padding: 32,
         paddingTop: 72
     },
 

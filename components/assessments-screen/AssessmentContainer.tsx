@@ -1,4 +1,5 @@
-import { StyleSheet, Text, Touchable, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
+import { StyleSheet, Text, View } from "react-native";
 import { Button } from "../Button";
 
 interface AssessmentContainerProps {
@@ -6,6 +7,15 @@ interface AssessmentContainerProps {
 }
 
 export default function AssessmentContainer({ assessmentData }: AssessmentContainerProps) {
+
+    const router = useRouter();
+
+    const access = () => {
+        router.push({
+            pathname: "/grade-assessment/ClickImages", 
+            params: { assessmentId: assessmentData.id, scanError: 0 }
+        })
+    }
 
     return (
 
@@ -27,9 +37,10 @@ export default function AssessmentContainer({ assessmentData }: AssessmentContai
 
             <Button
                 type="secondary"
-                iconName="arrow-forward-outline"
+                iconName="camera-outline"
                 iconSize={20}
                 style={styles.accessButton}
+                onPress={access}
             />
 
         </View>

@@ -2,7 +2,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { getFirestore, collection, getDocs } from '@react-native-firebase/firestore';
 import { useEffect, useState } from "react";
 import { useUser } from "@/contexts/UserContext";
-import AssessmentContainer from "@/components/assessmentsScreen/AssessmentContainer";
+import AssessmentContainer from "@/components/assessments-screen/AssessmentContainer";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { Input } from "@/components/Input";
 
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        padding: 36,
+        padding: 32,
         paddingTop: 72
     },
 

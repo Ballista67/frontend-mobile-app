@@ -93,7 +93,7 @@ export default function LogIn() {
 			</Text>
 
 			<Text style={styles.welcomeText}>
-				Welcome to Ballista! Please log in!
+				Welcome to Ballista! Please log in.
 			</Text>
 
 			<Input
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
-		padding: 36
+		padding: 32
 	},
 
 	logoImage: {
