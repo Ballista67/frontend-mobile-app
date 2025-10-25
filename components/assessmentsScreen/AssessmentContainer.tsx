@@ -1,11 +1,11 @@
 import { StyleSheet, Text, Touchable, TouchableOpacity, View } from "react-native";
 import { Button } from "../Button";
 
-interface ClassContainerProps {
-    classData: any
+interface AssessmentContainerProps {
+    assessmentData: any
 }
 
-export default function ClassContainer({ classData }: ClassContainerProps) {
+export default function AssessmentContainer({ assessmentData }: AssessmentContainerProps) {
 
     return (
 
@@ -16,11 +16,11 @@ export default function ClassContainer({ classData }: ClassContainerProps) {
             <View style={styles.classNameContainer}>
 
                 <Text style={styles.classNameText}>
-                    {classData.name}
+                    {assessmentData.name}
                 </Text>
 
                 <Text style={styles.classStudentCountText}>
-                    27 students
+                    AP Physics C: Mechanics
                 </Text>
 
             </View>

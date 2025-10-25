@@ -1,23 +1,31 @@
-import { StyleSheet, Text, View } from "react-native"
+import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
 interface ScreenHeaderProps {
     title: string;
-    description: string;
 }
 
-export function ScreenHeader({ title, description }: ScreenHeaderProps) {
+export function ScreenHeader({ title }: ScreenHeaderProps) {
 
     return (
 
         <View style={styles.container}>
 
+            <TouchableOpacity style={styles.backButton}>
+
+                <Ionicons 
+                    name="arrow-back-outline"
+                    color="#fff"
+                    size={36}
+                />
+
+            </TouchableOpacity>
+
             <Text style={styles.titleText}>
                 {title}
             </Text>
 
-            <Text style={styles.descriptionText}>
-                Access all your classes in one place.
-            </Text>
+            <View/>
 
         </View>
 
@@ -28,27 +36,19 @@ export function ScreenHeader({ title, description }: ScreenHeaderProps) {
 const styles = StyleSheet.create({
 
     container: {
-        backgroundColor: "#5763d8", 
-        position: "absolute", 
-        width: "130%", 
-        paddingTop: 80, 
-        borderBottomLeftRadius: 50, 
-        borderBottomRightRadius: 50, 
+        flexDirection: "row", 
+        width: "100%"
     },
 
     titleText: {
         color: "#fff",
         fontSize: 28,
         fontWeight: "bold",
-        marginBottom: 6, 
-        textAlign: "center"
-    },
-    descriptionText: {
-        color: "#cececeff",
-        fontSize: 15,
-        marginBottom: 30,
-        textAlign: "center", 
-        fontWeight: "semibold"
+        marginHorizontal: "auto"
+    }, 
+    backButton: {
+        position: "absolute", 
+        left: 0
     }
 
 })

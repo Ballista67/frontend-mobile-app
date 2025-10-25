@@ -2,7 +2,7 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Separator } from "@/components/Separator";
 import { getApp } from "@react-native-firebase/app";
-import auth, { GoogleAuthProvider, signInWithEmailAndPassword } from '@react-native-firebase/auth';
+import auth, { signInWithEmailAndPassword } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Link, useRouter } from "expo-router";
 import * as React from "react";

@@ -8,7 +8,7 @@ type TextInputTextContentType = ComponentProps<typeof TextInput>["textContentTyp
 interface InputProps {
 	value?: string;
 	setValue?: Dispatch<SetStateAction<string>>;
-	label: string;
+	label?: string;
 	placeholder: string;
 	iconName?: IoniconName;
 	textContentType?: TextInputTextContentType;
@@ -18,13 +18,13 @@ interface InputProps {
 export function Input({ value, setValue, label, placeholder, iconName, textContentType, style } : InputProps) {
 
 	return (
-		<View style={[styles.container, style]}>
+		<View style={styles.container}>
 
 			<Text style={styles.labelText}>
 				{label}
 			</Text>
 
-			<View style={styles.textInputContainer}>
+			<View style={[styles.textInputContainer, style]}>
 
 				{iconName && (
 					<Ionicons 
