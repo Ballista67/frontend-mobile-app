@@ -34,7 +34,6 @@ export default function ImagesSummary() {
 
             const res = await axios.post(`${API_URL}/grade-assessment`, formData);
 
-            const { status } = res.data["status"];
             const gradedQuestionsData = res.data["graded_questions_data"];
 
             router.push({

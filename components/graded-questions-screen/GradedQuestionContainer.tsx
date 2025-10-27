@@ -10,47 +10,43 @@ export function GradedQuestionContainer({ gradedQuestionData, questionNum }: Gra
     const answerChoiceLabels = ["A", "B", "C", "D", "E"];
 
     return (
-
         <View style={styles.container}>
 
             <Text style={styles.promptText}>
                 {questionNum}. {gradedQuestionData.prompt}
             </Text>
 
-            <View style={styles.answerChoicesContainer}>
-
-                {gradedQuestionData.answer_choices.map((answerChoice: any, index: number) => (
-
-                    <View
-                        key={index}
-                        style={styles.answerChoiceContainer}
-
-                    >
-
-                        <Text style={[
-                            styles.answerChoiceLabelText,
-                            gradedQuestionData.selected_answer_choices_indices.includes(index) && 
-                            styles.selectedAnswerChoiceLabelText
-                        ]}>
-                            {answerChoiceLabels[index]}
-                        </Text>
-
-                        <Text
-                            style={styles.answerChoiceText}
+            {gradedQuestionData.type === "freeResponse" ? (
+                <Text style={styles.freeResponseAnswerText}>
+                    {gradedQuestionData.written_response}
+                </Text>
+            ) : (
+                <View style={styles.answerChoicesContainer}>
+                    {gradedQuestionData.answer_choices.map((answerChoice: any, index: number) => (
+                        <View
+                            key={index}
+                            style={styles.answerChoiceContainer}
                         >
-                            {answerChoice}
-                        </Text>
+                            <Text
+                                style={[
+                                    styles.answerChoiceLabelText,
+                                    gradedQuestionData.selected_answer_choices_indices.includes(index) &&
+                                    styles.selectedAnswerChoiceLabelText
+                                ]}
+                            >
+                                {answerChoiceLabels[index]}
+                            </Text>
 
-                    </View>
-
-                ))}
-
-            </View>
+                            <Text style={styles.answerChoiceText}>
+                                {answerChoice}
+                            </Text>
+                        </View>
+                    ))}
+                </View>
+            )}
 
         </View>
-
     )
-
 }
 
 const styles = StyleSheet.create({
@@ -68,7 +64,7 @@ const styles = StyleSheet.create({
     answerChoicesContainer: {
         flexDirection: "column",
         gap: 6,
-        marginTop: 6, 
+        marginTop: 6,
         marginLeft: 24
     },
 
@@ -76,24 +72,34 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 6
     },
-    answerChoiceLabelText: { 
-        borderWidth: 0.5, 
-        borderColor: "#fff", 
-        borderRadius: 1000, 
-        width: 20, 
-        height: 20, 
-        color: "#fff", 
-        textAlign: "center", 
+    answerChoiceLabelText: {
+        borderWidth: 0.5,
+        borderColor: "#fff",
+        borderRadius: 1000,
+        width: 20,
+        height: 20,
+        color: "#fff",
+        textAlign: "center",
         lineHeight: 18,
         fontSize: 10
     },
-    selectedAnswerChoiceLabelText: { 
-        color: "#000", 
+    selectedAnswerChoiceLabelText: {
+        color: "#000",
         backgroundColor: "#fff"
     },
     answerChoiceText: {
         color: "#fff",
         fontSize: 16
     },
+
+    freeResponseAnswerText: {
+        borderColor: "#fff", 
+        borderWidth: 0.5, 
+        borderRadius: 10, 
+        marginTop: 6, 
+        color: "#fff", 
+        padding: 8, 
+        minHeight: 80
+    }
 
 })

@@ -1,4 +1,7 @@
+import { useUser } from "@/contexts/UserContext";
+import { collectionGroup, getDocs, getFirestore, query, where } from "@react-native-firebase/firestore";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button } from "../Button";
 
@@ -10,11 +13,44 @@ export default function AssessmentContainer({ assessmentData }: AssessmentContai
 
     const router = useRouter();
 
+    const db = getFirestore();
+
+    const { user } = useUser();
+
+    const [classData, setClassData] = useState<any>(null);
+
     const access = () => {
         router.push({
-            pathname: "/grade-assessment/ClickImages", 
+            pathname: "/grade-assessment/ClickImages",
             params: { assessmentId: assessmentData.id, scanError: 0 }
         })
+    }
+
+    const getAssessmentClassData = async () => {
+
+        if (user) {
+
+            const q = query(
+                collectionGroup(db, "classes"),
+                where("id", "==", assessmentData.classId)
+            );
+
+            const snap = await getDocs(q);
+
+            if (!snap.empty) {
+                setClassData(snap.docs[0].data());
+            }
+
+        }
+
+    }
+
+    useEffect(() => {
+        getAssessmentClassData();
+    }, [])
+
+    if (!assessmentData || !classData) {
+        return <View />
     }
 
     return (
@@ -23,14 +59,20 @@ export default function AssessmentContainer({ assessmentData }: AssessmentContai
 
             <View style={styles.iconContainer} />
 
-            <View style={styles.classNameContainer}>
+            <View style={styles.assessmentNameContainer}>
 
-                <Text style={styles.classNameText}>
+                <Text 
+                    style={styles.assessmentNameText}
+                    numberOfLines={1}
+                >
                     {assessmentData.name}
                 </Text>
 
-                <Text style={styles.classStudentCountText}>
-                    AP Physics C: Mechanics
+                <Text
+                    style={styles.assessmentClassNameText}
+                    numberOfLines={2}
+                >
+                    {classData.name}
                 </Text>
 
             </View>
@@ -58,22 +100,22 @@ const styles = StyleSheet.create({
         borderColor: "#595959",
         borderWidth: 0.5,
         flexDirection: "row",
-        gap: 12, 
-        alignItems: "center", 
+        gap: 12,
+        alignItems: "center",
         marginBottom: 12
     },
 
-    classNameContainer: {
+    assessmentNameContainer: {
         width: 170
     },
 
-    classNameText: {
+    assessmentNameText: {
         color: "#fff",
         fontSize: 16,
         fontWeight: '600',
         marginBottom: 2
     },
-    classStudentCountText: {
+    assessmentClassNameText: {
         color: "#b5b5b5"
     },
 
@@ -86,7 +128,7 @@ const styles = StyleSheet.create({
     },
 
     accessButton: {
-        width: 50, 
+        width: 50,
         height: 50
     }
 

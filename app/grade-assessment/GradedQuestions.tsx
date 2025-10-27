@@ -1,6 +1,7 @@
+import { Button } from "@/components/Button";
 import { GradedQuestionContainer } from "@/components/graded-questions-screen/GradedQuestionContainer";
 import { ScreenHeader } from "@/components/ScreenHeader";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function GradedQuestions() {
@@ -13,6 +14,10 @@ export default function GradedQuestions() {
         <View style={styles.container}>
 
             <ScreenHeader title="Graded Questions"/>
+
+            <Button onPress={() => router.push("/(tabs)/Assessments")}>
+
+            </Button>
 
             <ScrollView style={styles.gradedQuestionsContainer}>
 

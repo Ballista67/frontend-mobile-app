@@ -1,5 +1,4 @@
-import { StyleSheet, Text, Touchable, TouchableOpacity, View } from "react-native";
-import { Button } from "../Button";
+import { StyleSheet, Text, View } from "react-native";
 
 interface ClassContainerProps {
     classData: any
@@ -15,22 +14,25 @@ export default function ClassContainer({ classData }: ClassContainerProps) {
 
             <View style={styles.classNameContainer}>
 
-                <Text style={styles.classNameText}>
+                <Text 
+                    style={styles.classNameText}
+                    numberOfLines={1}
+                >
                     {classData.name}
                 </Text>
 
                 <Text style={styles.classStudentCountText}>
-                    27 students
+                    {classData.studentIds.length} students
                 </Text>
 
             </View>
 
-            <Button
+            {/* <Button
                 type="secondary"
                 iconName="arrow-forward-outline"
                 iconSize={20}
                 style={styles.accessButton}
-            />
+            /> */}
 
         </View>
 
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     },
 
     classNameContainer: {
-        width: 170
+        
     },
 
     classNameText: {
