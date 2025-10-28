@@ -1,31 +1,38 @@
 import { Ionicons } from "@expo/vector-icons";
+import { Href, router } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
 interface ScreenHeaderProps {
     title: string;
+    backButtonHref?: Href;
 }
 
-export function ScreenHeader({ title }: ScreenHeaderProps) {
+export function ScreenHeader({ title, backButtonHref }: ScreenHeaderProps) {
 
     return (
 
         <View style={styles.container}>
 
-            <TouchableOpacity style={styles.backButton}>
+            {backButtonHref && (
+                <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => router.push(backButtonHref)}
+                >
 
-                <Ionicons 
-                    name="arrow-back-outline"
-                    color="#fff"
-                    size={36}
-                />
+                    <Ionicons
+                        name="arrow-back-outline"
+                        color="#fff"
+                        size={36}
+                    />
 
-            </TouchableOpacity>
+                </TouchableOpacity>
+            )}
 
             <Text style={styles.titleText}>
                 {title}
             </Text>
 
-            <View/>
+            <View />
 
         </View>
 
@@ -36,7 +43,7 @@ export function ScreenHeader({ title }: ScreenHeaderProps) {
 const styles = StyleSheet.create({
 
     container: {
-        flexDirection: "row", 
+        flexDirection: "row",
         width: "100%"
     },
 
@@ -45,9 +52,9 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: "bold",
         marginHorizontal: "auto"
-    }, 
+    },
     backButton: {
-        position: "absolute", 
+        position: "absolute",
         left: 0
     }
 

@@ -1,6 +1,6 @@
 import { Button } from '@/components/Button';
 import { Ionicons } from '@expo/vector-icons';
-import { CameraView, useCameraPermissions } from 'expo-camera';
+import { CameraCapturedPicture, CameraView, useCameraPermissions } from 'expo-camera';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -14,7 +14,7 @@ export default function ClickImages() {
     const [cameraPermission, requestCameraPermission] = useCameraPermissions();
 
     const cameraContainerRef = useRef(null);
-    const [cameraImageURI, setCameraImageURI] = useState(null);
+    const [cameraImageURI, setCameraImageURI] = useState<string | null>(null);
 
     const [allImageURIs, setAllImageURIs] = useState<any[]>([]);
 

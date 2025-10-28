@@ -5,9 +5,9 @@ import axios from "axios";
 import { router, useLocalSearchParams } from 'expo-router';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-export default function ImagesSummary() {
+const { EXPO_PUBLIC_API_URL: API_URL } = process.env;
 
-    const { EXPO_PUBLIC_API_URL: API_URL } = process.env;
+export default function ImagesSummary() {
 
     const { imageURIs, assessmentId } = useLocalSearchParams();
 
@@ -15,7 +15,7 @@ export default function ImagesSummary() {
 
     const parsedImageURIs = JSON.parse(imageURIs as string);
 
-    const grade = async () => {
+    const readAssessmentAnsweredQuestions = async () => {
 
         const formData = new FormData();
 
@@ -32,20 +32,23 @@ export default function ImagesSummary() {
 
         try {
 
-            const res = await axios.post(`${API_URL}/grade-assessment`, formData);
+            const res = await axios.post(`${API_URL}/read-assessment-answered-questions`, formData);
 
-            const gradedQuestionsData = res.data["graded_questions_data"];
+            const answeredQuestionsData = res.data["answeredQuestionsData"];
 
             router.push({
-                pathname: "/grade-assessment/GradedQuestions", 
-                params: { gradedQuestionsData: JSON.stringify(gradedQuestionsData) }
+                pathname: "/grade-assessment/AnsweredQuestions",
+                params: {
+                    answeredQuestionsData: JSON.stringify(answeredQuestionsData),
+                    assessmentId
+                }
             })
 
         }
 
         catch (err) {
             router.push({
-                pathname: "/grade-assessment/ClickImages", 
+                pathname: "/grade-assessment/ClickImages",
                 params: { assessmentId, scanError: 1 }
             })
         }
@@ -56,7 +59,10 @@ export default function ImagesSummary() {
 
         <View style={styles.container}>
 
-            <ScreenHeader title='Images' />
+            <ScreenHeader 
+                title='Images'
+                backButtonHref="/(tabs)/Assessments"
+            />
 
             <Text style={styles.imagesOrderText}>
                 Please make sure the images are in the correct order.
@@ -76,29 +82,14 @@ export default function ImagesSummary() {
 
             </ScrollView>
 
-            <View style={styles.optionsContainer}>
-
-                <Button
-                    iconName='close-outline'
-                    style={[styles.optionsButton, { backgroundColor: "#EB3B3B" }]}
-                    textStyle={styles.optionsButtonText}
-                    iconSize={28}
-                    onPress={() => router.push("/(tabs)/Assessments")}
-                >
-                    Cancel
-                </Button>
-
-                <Button
-                    iconName='sparkles-outline'
-                    style={[styles.optionsButton]}
-                    textStyle={styles.optionsButtonText}
-                    iconSize={28}
-                    onPress={grade}
-                >
-                    Auto Grade
-                </Button>
-
-            </View>
+            <Button
+                iconName='sparkles-outline'
+                style={{height: 50}}
+                iconSize={24}
+                onPress={readAssessmentAnsweredQuestions}
+            >
+                Read Answers
+            </Button>
 
         </View>
 
@@ -131,19 +122,5 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         borderRadius: 10
     },
-
-    optionsContainer: {
-        flexDirection: "row",
-        gap: 12,
-        position: "absolute",
-        bottom: 36
-    },
-    optionsButton: {
-        height: 50,
-        width: 160,
-    },
-    optionsButtonText: {
-        fontSize: 14
-    }
 
 })
